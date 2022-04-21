@@ -39,6 +39,7 @@ public class GameBoard {
     }
 
     public GameBoardLocationType getLocationAt(int x, int y) {
-        return GameBoardLocationType.fromChar(this.boardAsString.charAt(y * this.width + x));
+        // width + 1 because of new lines.
+        return GameBoardLocationType.fromChar(this.boardAsString.charAt(y * (this.width + 1) + x));
     }
 }

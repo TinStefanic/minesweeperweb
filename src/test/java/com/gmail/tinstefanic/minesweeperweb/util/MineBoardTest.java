@@ -13,11 +13,12 @@ class MineBoardTest {
     @Test
     @DisplayName("Optimal starting coords should be (2, 1).")
     void optimalStartingCoordsShouldBe00Test() {
-        String boardString =
-                "X___" +
-                "____" +
-                "____" +
-                "X__X";
+        String boardString = """
+                        X___
+                        ____
+                        ____
+                        X__X
+                        """;
         int width = 4, height = 4;
 
         var mineBoard = MineBoard.fromString(width, height, boardString);
@@ -30,17 +31,19 @@ class MineBoardTest {
     @ValueSource(ints = {3, 8, -2, -7})
     @DisplayName("RightShiftColumnsShouldShiftColumnsCorrectly.")
     void rightShiftColumnsShouldShiftColumnsCorrectlyTest(int offset) {
-        String boardString =
-                "_X___" +
-                "____X";
+        String boardString = """
+                        _X___
+                        ____X
+                        """;
         int width = 5, height = 2;
 
         var initialMineBoard = MineBoard.fromString(width, height, boardString);
         var actualMineBoard = initialMineBoard.rightShiftColumns(offset);
 
-        String expectedBoardString =
-                "____X" +
-                "__X__";
+        String expectedBoardString = """
+                        ____X
+                        __X__
+                        """;
         var expectedMineBoard = MineBoard.fromString(width, height, expectedBoardString);
         assertThat(actualMineBoard).isEqualTo(expectedMineBoard);
     }
@@ -49,21 +52,23 @@ class MineBoardTest {
     @ValueSource(ints = {1, 5, -3, -7})
     @DisplayName("RightShiftRowsShouldShiftRowsCorrectly.")
     void rightShiftRowsShouldShiftRowsCorrectlyTest(int offset) {
-        String boardString =
-                "__" +
-                "X_" +
-                "__" +
-                "_X";
+        String boardString = """
+                        __
+                        X_
+                        __
+                        _X
+                        """;
         int width = 2, height = 4;
 
         var initialMineBoard = MineBoard.fromString(width, height, boardString);
         var actualMineBoard = initialMineBoard.rightShiftRows(offset);
 
-        String expectedBoardString =
-                "_X" +
-                "__" +
-                "X_" +
-                "__";
+        String expectedBoardString = """
+                        _X
+                        __
+                        X_
+                        __
+                        """;
         var expectedMineBoard = MineBoard.fromString(width, height, expectedBoardString);
         assertThat(actualMineBoard).isEqualTo(expectedMineBoard);
     }

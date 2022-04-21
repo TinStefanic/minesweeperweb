@@ -3,6 +3,8 @@ package com.gmail.tinstefanic.minesweeperweb.services.gameboard;
 import com.gmail.tinstefanic.minesweeperweb.entities.GameBoard;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,17 +32,6 @@ class SimpleGameBoardGeneratorTest {
     }
 
     @Test
-    @DisplayName("Location type on generated board shouldn't be a mine.")
-    void locationTypeOnGeneratedBoardShouldntBeAMineTest() {
-        int width = 16, height = 40;
-        int totalMines = width * height;
-
-        var gameBoard = new GameBoard(width, height, totalMines, new SimpleGameBoardGenerator());
-
-        assertThat(gameBoard.getLocationAt(0, 0)).isNotEqualTo(GameBoardLocationType.MINE);
-    }
-
-    @Test
     @DisplayName("Location type on generated board shouldn't be open.")
     void locationTypeOnGeneratedBoardShouldntBeOpenTest() {
         int width = 16, height = 40;
@@ -51,23 +42,17 @@ class SimpleGameBoardGeneratorTest {
         assertThat(gameBoard.getLocationAt(0, 0).isClosed()).isTrue();
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource({"0, 0, 1, 1", "2, 3, 5, 5", "13,13,16,40", "1,17,16,40"})
     @DisplayName("First location opened shouldn't be a mine.")
-    void firstLocationOpenedShouldntBeAMineTest() {
-        int width = 16, height = 40;
+    void firstLocationOpenedShouldntBeAMineTest(int x, int y, int width, int height) {
         int totalMines = width * height - 1;
         var boardGenerator = new SimpleGameBoardGenerator();
 
         var gameBoard = new GameBoard(width, height, totalMines, boardGenerator);
+        String safeStartBoardString = boardGenerator.ensureSafeStartLocation(gameBoard, x, y);
+        gameBoard.setBoardAsString(safeStartBoardString);
 
-        gameBoard.setBoardAsString(
-                boardGenerator.ensureSafeStartLocation(gameBoard, 13, 13)
-        );
-        assertThat(gameBoard.getLocationAt(13, 13)).isNotEqualTo(GameBoardLocationType.MINE);
-
-        gameBoard.setBoardAsString(
-                boardGenerator.ensureSafeStartLocation(gameBoard, 1, 17)
-        );
-        assertThat(gameBoard.getLocationAt(1, 17)).isNotEqualTo(GameBoardLocationType.MINE);
+        assertThat(gameBoard.getLocationAt(x, y)).isNotEqualTo(GameBoardLocationType.MINE);
     }
 }

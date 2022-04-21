@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class GameBoardBoardService implements IGameBoardService {
+public class GameBoardService implements IGameBoardService {
     @Override
     public GameBoard getNewGameBoard(String difficulty) {
         if ("easy".equals(difficulty)) return new GameBoard(9, 9, 10);

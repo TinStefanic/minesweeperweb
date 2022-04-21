@@ -1,6 +1,6 @@
 package com.gmail.tinstefanic.minesweeperweb.services.gameboard;
 
-import com.gmail.tinstefanic.minesweeperweb.exceptions.IllegalCharLocationTypeArgumentException;
+import com.gmail.tinstefanic.minesweeperweb.exceptions.IllegalCharLocationTypeException;
 
 import java.util.Arrays;
 
@@ -20,6 +20,10 @@ public enum GameBoardLocationType {
     OPENED_1('b'), OPENED_2('c'), OPENED_3('d'), OPENED_4('e'),
     OPENED_5('f'), OPENED_6('g'), OPENED_7('h'), OPENED_8('i');
 
+    public static GameBoardLocationType fromNumSurroundingClosed(int numSurroundingMines) {
+        return GameBoardLocationType.valueOf("CLOSED_" + numSurroundingMines);
+    }
+
     public char asChar() {
         return location;
     }
@@ -34,7 +38,7 @@ public enum GameBoardLocationType {
         return Arrays.stream(GameBoardLocationType.values())
                 .filter(gbl -> gbl.location == location)
                 .findAny()
-                .orElseThrow(IllegalCharLocationTypeArgumentException::new);
+                .orElseThrow(IllegalCharLocationTypeException::new);
     }
 
     /**

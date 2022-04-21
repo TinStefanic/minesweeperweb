@@ -3,12 +3,12 @@ package com.gmail.tinstefanic.minesweeperweb.exceptions;
 /**
  * Thrown when GameBoardLocationType enum receives character it cannot map to a location type.
  */
-public class IllegalCharLocationTypeArgumentException extends IllegalArgumentException {
-    public IllegalCharLocationTypeArgumentException() {
+public class IllegalCharLocationTypeException extends IllegalArgumentException {
+    public IllegalCharLocationTypeException() {
         super();
     }
 
-    public IllegalCharLocationTypeArgumentException(String message) {
+    public IllegalCharLocationTypeException(String message) {
         super(message);
     }
 }
