@@ -9,6 +9,7 @@ import java.util.List;
 public class GameBoardService implements IGameBoardService {
     @Override
     public GameBoard getNewGameBoard(String difficulty) {
+        // GameBoard(width, height, totalMines).
         if ("easy".equals(difficulty)) return new GameBoard(9, 9, 10);
         if ("normal".equals(difficulty)) return new GameBoard(12, 17, 40);
         if ("hard".equals(difficulty)) return new GameBoard(16, 40, 99);

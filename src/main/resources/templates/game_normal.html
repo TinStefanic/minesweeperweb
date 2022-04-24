@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!--suppress CheckTagEmptyBody -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Game</title>
+    <th:block th:include="layout :: head-assets"></th:block>
+</head>
+<body>
+
+<div class="align-items-center text-center">
+    <div class="container-lg justify-content-center">
+        <div class="my-3">
+            <h1 id="timer">0</h1>
+        </div>
+        <div class="row" th:each="row: ${gameBoard.getRows()}">
+            <div class="col m-1 m-lg-2 location"
+                 th:each="col: ${row}"
+                 th:id="'location_' + ${rowStat.index} + '_' + ${colStat.index}">
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

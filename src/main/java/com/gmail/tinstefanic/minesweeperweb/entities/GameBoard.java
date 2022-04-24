@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents the minesweeper game board.
@@ -41,5 +43,19 @@ public class GameBoard {
     public GameBoardLocationType getLocationAt(int x, int y) {
         // width + 1 because of new lines.
         return GameBoardLocationType.fromChar(this.boardAsString.charAt(y * (this.width + 1) + x));
+    }
+
+    public List<List<GameBoardLocationType>> getRows() {
+        var list = new ArrayList<List<GameBoardLocationType>>();
+
+        for (int row = 0; row < this.height; ++row) {
+            list.add(
+                    this.boardAsString.substring( // -1 because new line is ignored.
+                            (this.width + 1) * row, (this.width + 1) * (row + 1) - 1
+                    ).chars().mapToObj(c -> GameBoardLocationType.fromChar((char) c)).toList()
+            );
+        }
+
+        return list;
     }
 }

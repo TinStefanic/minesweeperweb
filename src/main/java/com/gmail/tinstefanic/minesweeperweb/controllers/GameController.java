@@ -22,7 +22,9 @@ public class GameController {
         if (!this.gameService.isValidDifficulty(difficulty))
             return "redirect:/menu";
         model.addAttribute("gameBoard", this.gameService.getNewGameBoard(difficulty));
-        return "game/" + difficulty;
+
+        // Easy and normal difficulty share page.
+        return "game_" + ("easy".equals(difficulty) ? "normal" : difficulty);
     }
 
     @GetMapping("/difficulty")

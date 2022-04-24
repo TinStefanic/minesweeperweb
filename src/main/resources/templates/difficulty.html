@@ -2,7 +2,7 @@
 <!--suppress CheckTagEmptyBody -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Menu</title>
+    <title>Difficulty selection</title>
     <th:block th:include="layout :: head-assets"></th:block>
 </head>
 <body>
@@ -11,11 +11,10 @@
     <div class="container">
         <div class="row justify-content-center text-center">
             <div class="col">
-                <div class="pb-5"><h1>Minesweeper</h1></div>
-                <div class="pb-2"><a th:href="@{/difficulty}" class="menu-option">New game</a></div>
-                <form action="#" th:action="@{/logout}" method="post">
-                    <input type="submit" value="Log out" class="btn btn-link menu-option">
-                </form>
+                <div class="pb-5"><h1>Select difficulty</h1></div>
+                <div class="pb-2"><a th:href="@{/game/easy}" class="menu-option">Easy</a></div>
+                <div class="pb-2"><a th:href="@{/game/normal}" class="menu-option">normal</a></div>
+                <div class="pb-2"><a th:href="@{/game/hard}" class="menu-option">hard</a></div>
             </div>
         </div>
     </div>
