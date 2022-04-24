@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Represents the minesweeper game board.
+ * Username should be set with setter method when GameBoard gets assigned to user.
  */
 @Getter
 @Setter
@@ -19,13 +20,14 @@ import java.util.List;
 public class GameBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private int width;
     private int height;
     private int totalMines;
     private long startTime; // Should be initialized after player opens first field.
     @Column(length = 1023)
     private String boardAsString;
+    private String username; // Name of user to whom this game board id assigned.
 
     protected GameBoard() {}
 

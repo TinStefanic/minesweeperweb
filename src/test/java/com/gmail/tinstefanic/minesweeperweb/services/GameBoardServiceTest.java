@@ -13,7 +13,7 @@ class GameBoardServiceTest {
     @ValueSource(strings = {"easy", "normal", "hard"})
     @DisplayName("isValidDifficulty should return true for valid difficulties.")
     void isValidDifficulty_shouldReturnTrueForValidDifficultiesTest(String s) {
-        var gameService = new GameBoardService();
+        var gameService = new GameBoardGeneratorService();
 
         assertThat(gameService.isValidDifficulty(s)).isTrue();
     }
@@ -22,7 +22,7 @@ class GameBoardServiceTest {
     @ValueSource(strings = {"not_easy", "", "harrrd"})
     @DisplayName("isValidDifficulty should return false for invalid difficulties.")
     void isValidDifficulty_shouldReturnFalseForInvalidDifficultiesTest(String s) {
-        var gameService = new GameBoardService();
+        var gameService = new GameBoardGeneratorService();
 
         assertThat(gameService.isValidDifficulty(s)).isFalse();
     }
@@ -30,7 +30,7 @@ class GameBoardServiceTest {
     @Test
     @DisplayName("getNewGameBoard should return 9x9 board for easy.")
     void getNewGameBoard_shouldReturn9x9boardForEasyTest() {
-        var gameService = new GameBoardService();
+        var gameService = new GameBoardGeneratorService();
         var difficulty = "easy";
         var gameBoard = gameService.getNewGameBoard(difficulty);
 
@@ -41,7 +41,7 @@ class GameBoardServiceTest {
     @Test
     @DisplayName("getNewGameBoard should return 12x17 board for normal.")
     void getNewGameBoard_shouldReturn12x17boardForNormalTest() {
-        var gameService = new GameBoardService();
+        var gameService = new GameBoardGeneratorService();
         var difficulty = "normal";
         var gameBoard = gameService.getNewGameBoard(difficulty);
 

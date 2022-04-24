@@ -15,7 +15,7 @@ public class DefaultUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> optUser = userRepository.findById(username);
+        Optional<User> optUser = this.userRepository.findById(username);
         if (optUser.isPresent()) return optUser.get();
         else throw new UsernameNotFoundException(
                 "User with username '" + username + "' doesn't exist in database."

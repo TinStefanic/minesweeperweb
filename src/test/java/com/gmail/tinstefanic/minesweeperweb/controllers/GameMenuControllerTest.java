@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
-class GameControllerTest {
+class GameMenuControllerTest {
 
     @Autowired
     MockMvc mockMvc;

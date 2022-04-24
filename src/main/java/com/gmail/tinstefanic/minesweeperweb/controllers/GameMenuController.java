@@ -1,27 +1,33 @@
 package com.gmail.tinstefanic.minesweeperweb.controllers;
 
-import com.gmail.tinstefanic.minesweeperweb.services.IGameBoardService;
+import com.gmail.tinstefanic.minesweeperweb.services.IGameBoardGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@Controller
-public class GameController {
+import java.security.Principal;
 
-    private final IGameBoardService gameService;
+@Controller
+public class GameMenuController {
+
+    private final IGameBoardGeneratorService gameService;
 
     @Autowired
-    public GameController(IGameBoardService gameService) {
+    public GameMenuController(IGameBoardGeneratorService gameService) {
         this.gameService = gameService;
     }
 
     @GetMapping("/game/{difficulty}")
-    public String game(@PathVariable String difficulty, Model model) {
+    public String game(@PathVariable String difficulty, Model model, Principal principal) {
         if (!this.gameService.isValidDifficulty(difficulty))
             return "redirect:/menu";
-        model.addAttribute("gameBoard", this.gameService.getNewGameBoard(difficulty));
+
+        var gameBoard = this.gameService.getNewGameBoard(difficulty);
+        gameBoard.setUsername(principal.getName());
+
+        model.addAttribute("gameBoard", gameBoard);
 
         // Easy and normal difficulty share page.
         return "game_" + ("easy".equals(difficulty) ? "normal" : difficulty);

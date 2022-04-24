@@ -12,10 +12,12 @@
         <div class="my-3">
             <h1 id="timer">0</h1>
         </div>
+        <div id="result"></div>
         <div class="row" th:each="row: ${gameBoard.getRows()}">
             <div class="col m-1 m-lg-2 location"
                  th:each="col: ${row}"
-                 th:id="'location_' + ${rowStat.index} + '_' + ${colStat.index}">
+                 th:id="'location_' + ${rowStat.index} + '_' + ${colStat.index}"
+                 th:onclick="openLocation(this.id)">
             </div>
         </div>
     </div>

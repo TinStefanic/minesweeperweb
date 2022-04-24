@@ -2,7 +2,7 @@ package com.gmail.tinstefanic.minesweeperweb.services;
 
 import com.gmail.tinstefanic.minesweeperweb.entities.GameBoard;
 
-public interface IGameBoardService {
+public interface IGameBoardGeneratorService {
     /**
      * Creates new game board for the selected difficulty.
      * @param difficulty String representing difficulty.
