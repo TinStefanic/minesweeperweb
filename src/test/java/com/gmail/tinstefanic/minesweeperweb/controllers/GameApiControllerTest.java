@@ -2,7 +2,6 @@ package com.gmail.tinstefanic.minesweeperweb.controllers;
 
 import com.gmail.tinstefanic.minesweeperweb.entities.GameBoard;
 import com.gmail.tinstefanic.minesweeperweb.repositories.GameBoardRepository;
-import com.gmail.tinstefanic.minesweeperweb.services.GameMovesService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,9 +28,6 @@ class GameApiControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @MockBean
-    private GameMovesService gameMovesService;
 
     @MockBean
     private GameBoardRepository gameBoardRepository;

@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class GameBoardServiceTest {
+class GameBoardGeneratorServiceTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"easy", "normal", "hard"})
