@@ -1,6 +1,7 @@
 package com.gmail.tinstefanic.minesweeperweb.services;
 
 import com.gmail.tinstefanic.minesweeperweb.repositories.GameBoardRepository;
+import com.gmail.tinstefanic.minesweeperweb.services.gamemoves.GameMoves;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

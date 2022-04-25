@@ -1,4 +1,4 @@
-package com.gmail.tinstefanic.minesweeperweb.services;
+package com.gmail.tinstefanic.minesweeperweb.services.gamemoves;
 
 import com.gmail.tinstefanic.minesweeperweb.entities.GameBoard;
 import com.gmail.tinstefanic.minesweeperweb.exceptions.LocationOutOfGameBoardBoundsException;
