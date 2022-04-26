@@ -5,6 +5,7 @@ import com.gmail.tinstefanic.minesweeperweb.exceptions.LocationOutOfGameBoardBou
 import com.gmail.tinstefanic.minesweeperweb.exceptions.NotImplementedException;
 import com.gmail.tinstefanic.minesweeperweb.models.OpenLocationResponse;
 import com.gmail.tinstefanic.minesweeperweb.repositories.GameBoardRepository;
+import com.gmail.tinstefanic.minesweeperweb.services.gameboard.IGameBoardGenerator;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -13,14 +14,22 @@ public class GameMoves {
     private GameBoardRepository gameBoardRepository;
     private GameBoard gameBoard;
     private boolean doesGameBoardExist;
+    private IGameBoardGenerator gameBoardGenerator;
 
     /**
      * Creates new GameMoves class.
      * @param gameBoardId Id of GameBoard on which game moves should be performed.
      * @param gameBoardRepository Repository to access stored GameBoards.
+     * @param gameBoardGenerator Used to modify GameBoard so that first time location is opened
+     *                           that location is guaranteed not to be mine.
      */
-    public GameMoves(long gameBoardId, GameBoardRepository gameBoardRepository) {
+    public GameMoves(
+            long gameBoardId,
+            GameBoardRepository gameBoardRepository,
+            IGameBoardGenerator gameBoardGenerator)
+    {
         this.gameBoardRepository = gameBoardRepository;
+        this.gameBoardGenerator = gameBoardGenerator;
 
         Optional<GameBoard> optGameBoard = gameBoardRepository.findById(gameBoardId);
 
@@ -56,8 +65,7 @@ public class GameMoves {
      * @return Result of opening location.
      * @throws LocationOutOfGameBoardBoundsException Thrown if given x and/or y are outside GameBoard.
      */
-    public OpenLocationResponse openLocation(int x, int y)
-            throws LocationOutOfGameBoardBoundsException {
+    public OpenLocationResponse openLocation(int x, int y) throws LocationOutOfGameBoardBoundsException {
         throw new NotImplementedException();
     }
 }

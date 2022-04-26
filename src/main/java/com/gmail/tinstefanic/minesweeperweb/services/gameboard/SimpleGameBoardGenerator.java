@@ -9,11 +9,14 @@ import org.springframework.data.util.Pair;
  * Provides method to generate a random string representing game board.
  * And a corresponding method to modify game board and ensure that the
  * first position that user opened isn't a mine.
+ *
+ * Doesn't make additional guarantees on the game board,
+ * such as that game can be deterministically completed.
  */
 public class SimpleGameBoardGenerator implements IGameBoardGenerator {
 
     @Override
-    public String generateGameBoardString(int width, int height, int totalMines) {
+    public String generateInitialGameBoardString(int width, int height, int totalMines) {
         throwExceptionIfParametersAreIllegal(width, height, totalMines);
 
         var mineBoard = MineBoard.createRandomMineBoard(width, height, totalMines);

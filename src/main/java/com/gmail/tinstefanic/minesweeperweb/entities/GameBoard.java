@@ -39,7 +39,7 @@ public class GameBoard {
         this.width = width;
         this.height = height;
         this.totalMines = totalMines;
-        this.boardAsString = boardGenerator.generateGameBoardString(this.width, this.height, this.totalMines);
+        this.boardAsString = boardGenerator.generateInitialGameBoardString(this.width, this.height, this.totalMines);
     }
 
     public GameBoardLocationType getLocationAt(int x, int y) {

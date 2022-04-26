@@ -1,6 +1,7 @@
 package com.gmail.tinstefanic.minesweeperweb.services;
 
 import com.gmail.tinstefanic.minesweeperweb.repositories.GameBoardRepository;
+import com.gmail.tinstefanic.minesweeperweb.services.gameboard.SimpleGameBoardGenerator;
 import com.gmail.tinstefanic.minesweeperweb.services.gamemoves.GameMoves;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,6 @@ public class GameMovesFactoryService {
     }
 
     public GameMoves fromGameBoardId(long gameBoardId) {
-        return new GameMoves(gameBoardId, this.gameBoardRepository);
+        return new GameMoves(gameBoardId, this.gameBoardRepository, new SimpleGameBoardGenerator());
     }
 }

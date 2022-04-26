@@ -16,7 +16,7 @@ public interface IGameBoardGenerator {
      * @param totalMines Desired amount of mines that the generated GameBoard should have.
      * @return String representing game board generated with provided parameters.
      */
-    String generateGameBoardString(int width, int height, int totalMines);
+    String generateInitialGameBoardString(int width, int height, int totalMines);
 
     /**
      * Modifies game board to ensure that given position isn't a mine.
