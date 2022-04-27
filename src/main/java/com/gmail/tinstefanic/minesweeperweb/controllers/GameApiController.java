@@ -2,7 +2,7 @@ package com.gmail.tinstefanic.minesweeperweb.controllers;
 
 import com.gmail.tinstefanic.minesweeperweb.exceptions.LocationOutOfGameBoardBoundsException;
 import com.gmail.tinstefanic.minesweeperweb.models.OpenLocationResponse;
-import com.gmail.tinstefanic.minesweeperweb.services.AddToLeaderBoardService;
+import com.gmail.tinstefanic.minesweeperweb.services.AddToLeaderboardService;
 import com.gmail.tinstefanic.minesweeperweb.services.GameMovesFactoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,11 +18,11 @@ import java.security.Principal;
 public class GameApiController {
 
     private final GameMovesFactoryService gameMovesFactoryService;
-    private final AddToLeaderBoardService addToLeaderBoardService;
+    private final AddToLeaderboardService addToLeaderBoardService;
 
     public GameApiController(
             @Autowired GameMovesFactoryService gameMovesFactoryService,
-            @Autowired AddToLeaderBoardService addToLeaderBoardService)
+            @Autowired AddToLeaderboardService addToLeaderBoardService)
     {
         this.gameMovesFactoryService = gameMovesFactoryService;
         this.addToLeaderBoardService = addToLeaderBoardService;

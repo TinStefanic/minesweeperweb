@@ -1,18 +1,18 @@
 package com.gmail.tinstefanic.minesweeperweb.entities;
 
 import lombok.Getter;
-import lombok.Setter;
 
-import javax.persistence.*;
-import java.sql.Date;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 
 @Getter
-@Setter
 @Entity
 public class LeaderboardEntry {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // Same id as id of GameBoard to which it is related.
     private long gameDurationMillis;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -20,4 +20,16 @@ public class LeaderboardEntry {
 
     private String username;
     private String difficulty;
+
+    protected LeaderboardEntry() {}
+
+    public LeaderboardEntry(GameBoard gameBoard, String difficultyString) {
+        this.id = gameBoard.getId();
+
+        this.gameDurationMillis = System.currentTimeMillis() - gameBoard.getStartTimeMillis();
+        this.completionDateTime = new Date();
+
+        this.username = gameBoard.getUsername();
+        this.difficulty = difficultyString;
+    }
 }

@@ -1,7 +1,7 @@
 package com.gmail.tinstefanic.minesweeperweb.services;
 
+import com.gmail.tinstefanic.minesweeperweb.util.GameDifficulty;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -27,25 +27,16 @@ class GameBoardGeneratorServiceTest {
         assertThat(gameService.isValidDifficulty(s)).isFalse();
     }
 
-    @Test
-    @DisplayName("getNewGameBoard should return 9x9 board for easy.")
-    void getNewGameBoard_shouldReturn9x9boardForEasyTest() {
+    @ParameterizedTest
+    @ValueSource(strings = {"easy", "normal", "hard"})
+    @DisplayName("getNewGameBoard should return board for correct difficulty.")
+    void getNewGameBoard_shouldReturnBoardForCorrectDifficultyTest(String difficultyString) {
         var gameService = new GameBoardGeneratorService();
-        var difficulty = "easy";
-        var gameBoard = gameService.getNewGameBoard(difficulty);
+        var gameBoard = gameService.getNewGameBoard(difficultyString);
 
-        assertThat(gameBoard.getWidth()).isEqualTo(9);
-        assertThat(gameBoard.getHeight()).isEqualTo(9);
-    }
+        var gameDifficulty = GameDifficulty.valueOf(difficultyString.toUpperCase());
 
-    @Test
-    @DisplayName("getNewGameBoard should return 12x17 board for normal.")
-    void getNewGameBoard_shouldReturn12x17boardForNormalTest() {
-        var gameService = new GameBoardGeneratorService();
-        var difficulty = "normal";
-        var gameBoard = gameService.getNewGameBoard(difficulty);
-
-        assertThat(gameBoard.getWidth()).isEqualTo(12);
-        assertThat(gameBoard.getHeight()).isEqualTo(17);
+        assertThat(gameBoard.getWidth()).isEqualTo(gameDifficulty.getWidth());
+        assertThat(gameBoard.getHeight()).isEqualTo(gameDifficulty.getHeight());
     }
 }
