@@ -4,11 +4,13 @@ import com.gmail.tinstefanic.minesweeperweb.entities.GameBoard;
 import com.gmail.tinstefanic.minesweeperweb.exceptions.LocationOutOfGameBoardBoundsException;
 import com.gmail.tinstefanic.minesweeperweb.repositories.GameBoardRepository;
 import com.gmail.tinstefanic.minesweeperweb.services.gameboard.IGameBoardGenerator;
+import com.gmail.tinstefanic.minesweeperweb.services.gamemoves.GameMoves;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.security.Principal;
@@ -21,6 +23,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 class GameMovesTest {
 
     @Autowired
@@ -96,9 +99,9 @@ class GameMovesTest {
         IGameBoardGenerator gameBoardGenerator = mock(IGameBoardGenerator.class);
         when(gameBoardGenerator.generateInitialGameBoardString(width, height, totalMines))
                 .thenReturn("""
-                        XCB
-                        CXB
                         BBB
+                        BXC
+                        BCX
                         """);
         var gameBoard = new GameBoard(width, height, totalMines, gameBoardGenerator);
 
@@ -109,24 +112,26 @@ class GameMovesTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"3,0,1", "1,0,2", "2,2,1", "0,2,1", "0,1,2"})
+    @CsvSource({"2,0,1", "1,0,2", "2,2,1", "0,2,1", "0,1,2"})
     @DisplayName("Location opened should be surrounded by n mines.")
     void locationOpenedShouldBeSurroundedByNMinesTest(int x, int y, int n)
             throws LocationOutOfGameBoardBoundsException
     {
         long id = 17;
         int width = 3, height = 3, totalMines = 2;
-        IGameBoardGenerator gameBoardGenerator = mock(IGameBoardGenerator.class);
-        when(gameBoardGenerator.ensureSafeStartLocation(any(GameBoard.class), anyInt(), anyInt()))
-                .thenReturn("""
+        String board = """
                         XCB
                         CXB
                         BBB
-                        """);
-        var gameBoard = new GameBoard(width, height, totalMines);
+                        """;
+
+        IGameBoardGenerator gameBoardGenerator = mock(IGameBoardGenerator.class);
+        when(gameBoardGenerator.ensureSafeStartLocation(any(GameBoard.class), anyInt(), anyInt())).thenReturn(board);
+        when(gameBoardGenerator.generateInitialGameBoardString(width, height, totalMines)).thenReturn(board);
+        var gameBoard = new GameBoard(width, height, totalMines, gameBoardGenerator);
 
         when(this.gameBoardRepository.findById(id)).thenReturn(Optional.of(gameBoard));
-        var gameMoves = this.gameMovesFactoryService.fromGameBoardId(id);
+        var gameMoves = new GameMoves(id, this.gameBoardRepository, gameBoardGenerator);
 
         assertThat(gameMoves.openLocation(x, y).getNumNeighbouringMines()).isEqualTo(n);
     }
@@ -141,7 +146,7 @@ class GameMovesTest {
         when(this.gameBoardRepository.findById(id)).thenReturn(Optional.of(gameBoard));
         var gameMoves = this.gameMovesFactoryService.fromGameBoardId(id);
 
-        assertThat(gameMoves.openLocation(0, 0).isFirstAction()).isTrue();
+        assertThat(gameMoves.openLocation(0, 0).isFirstMove()).isTrue();
     }
 
     @Test
@@ -155,7 +160,7 @@ class GameMovesTest {
         var gameMoves = this.gameMovesFactoryService.fromGameBoardId(id);
         gameMoves.openLocation(0, 0);
 
-        assertThat(gameMoves.openLocation(1, 1).isFirstAction()).isFalse();
+        assertThat(gameMoves.openLocation(1, 1).isFirstMove()).isFalse();
     }
 
     @Test
@@ -176,17 +181,19 @@ class GameMovesTest {
     void gameShouldBeOverAfterOpeningAMineTest() throws LocationOutOfGameBoardBoundsException {
         long id = 17;
         int width = 3, height = 3, totalMines = 2;
-        IGameBoardGenerator gameBoardGenerator = mock(IGameBoardGenerator.class);
-        when(gameBoardGenerator.ensureSafeStartLocation(any(GameBoard.class), anyInt(), anyInt()))
-                .thenReturn("""
+        String board = """
                         XCB
                         CXB
                         BBB
-                        """);
-        var gameBoard = new GameBoard(width, height, totalMines);
+                        """;
+
+        IGameBoardGenerator gameBoardGenerator = mock(IGameBoardGenerator.class);
+        when(gameBoardGenerator.ensureSafeStartLocation(any(GameBoard.class), anyInt(), anyInt())).thenReturn(board);
+        when(gameBoardGenerator.generateInitialGameBoardString(width, height, totalMines)).thenReturn(board);
+        var gameBoard = new GameBoard(width, height, totalMines, gameBoardGenerator);
 
         when(this.gameBoardRepository.findById(id)).thenReturn(Optional.of(gameBoard));
-        var gameMoves = this.gameMovesFactoryService.fromGameBoardId(id);
+        var gameMoves = new GameMoves(id, this.gameBoardRepository, gameBoardGenerator);
 
         assertThat(gameMoves.openLocation(1, 1).isGameOver()).isTrue();
     }
@@ -198,16 +205,18 @@ class GameMovesTest {
     {
         long id = 17;
         int width = 2, height = 2, totalMines = 2;
-        IGameBoardGenerator gameBoardGenerator = mock(IGameBoardGenerator.class);
-        when(gameBoardGenerator.ensureSafeStartLocation(any(GameBoard.class), anyInt(), anyInt()))
-                .thenReturn("""
+        String board = """
                         XC
                         CX
-                        """);
-        var gameBoard = new GameBoard(width, height, totalMines);
+                        """;
+
+        IGameBoardGenerator gameBoardGenerator = mock(IGameBoardGenerator.class);
+        when(gameBoardGenerator.ensureSafeStartLocation(any(GameBoard.class), anyInt(), anyInt())).thenReturn(board);
+        when(gameBoardGenerator.generateInitialGameBoardString(width, height, totalMines)).thenReturn(board);
+        var gameBoard = new GameBoard(width, height, totalMines, gameBoardGenerator);
 
         when(this.gameBoardRepository.findById(id)).thenReturn(Optional.of(gameBoard));
-        var gameMoves = this.gameMovesFactoryService.fromGameBoardId(id);
+        var gameMoves = new GameMoves(id, this.gameBoardRepository, gameBoardGenerator);
 
         assertThat(gameMoves.openLocation(1, 0).isGameOver()).isFalse();
         assertThat(gameMoves.openLocation(0, 1).isGameOver()).isTrue();

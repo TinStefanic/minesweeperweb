@@ -9,13 +9,13 @@ import lombok.Getter;
 public class OpenLocationResponse {
     private final boolean isMine;
     private final int numNeighbouringMines;
-    private final boolean firstAction;
+    private final boolean isFirstMove;
     private final boolean isGameOver;
 
-    public OpenLocationResponse(boolean isMine, int numNeighbouringMines, boolean firstAction, boolean isGameOver) {
+    public OpenLocationResponse(boolean isMine, int numNeighbouringMines, boolean isFirstMove, boolean isGameOver) {
         this.isMine = isMine;
         this.numNeighbouringMines = numNeighbouringMines;
-        this.firstAction = firstAction;
+        this.isFirstMove = isFirstMove;
         this.isGameOver = isGameOver;
     }
 }

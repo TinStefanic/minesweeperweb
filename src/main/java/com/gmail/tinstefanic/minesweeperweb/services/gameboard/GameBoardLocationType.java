@@ -48,4 +48,14 @@ public enum GameBoardLocationType {
     public boolean isClosed() {
         return isUpperCase(location);
     }
+
+    /**
+     * Gets number of surrounding mines of given location that isn't a mine.
+     * @return Number of surrounding mines.
+     */
+    public int getNumSurroundingMines() {
+        if (this == GameBoardLocationType.MINE) return -1; // Operation is undefined for mine.
+        if (isClosed()) return asChar() - CLOSED_0.asChar();
+        else return asChar() - OPENED_0.asChar();
+    }
 }

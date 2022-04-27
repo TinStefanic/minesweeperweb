@@ -69,7 +69,7 @@ class GameApiControllerTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"-1,3", "3,-4", "10,5", "7,12", "-2,13"})
+    @CsvSource({"-1,3", "3,-4", "10,5", "7,12", "-2,13", "5,10"})
     @DisplayName("If coordinates are outside of GameBoard return Bad request.")
     @WithMockUser(username = "user")
     void ifCoordinatesAreOutsideOfGameBoardReturnBadRequestTest(String x, String y) throws Exception {

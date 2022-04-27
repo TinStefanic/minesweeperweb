@@ -41,6 +41,7 @@ public class GameApiController {
         }
 
         try {
+            // TODO: Check if game is completed and if soo add it to leaderboard.
             return gameMoves.openLocation(x, y);
         } catch (LocationOutOfGameBoardBoundsException e) {
             throw new ResponseStatusException(

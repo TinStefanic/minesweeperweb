@@ -2,10 +2,21 @@
     color: black;
 }
 
-.location {
-    background-color: #212529;
+.location-closed {
+    background-color: #212529; // Black/dark grey.
 }
 
+.location-opened {
+    ; // Removes background-color/makes it same as site background.
+}
+
+.location-flagged {
+    background-color: Maroon;
+}
+
+.location-mine {
+    background-color: Red;
+}
 
 .location:before {
     content: "";

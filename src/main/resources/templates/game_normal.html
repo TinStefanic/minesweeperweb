@@ -14,7 +14,7 @@
         </div>
         <div id="result"></div>
         <div class="row" th:each="row: ${gameBoard.getRows()}">
-            <div class="col m-1 m-lg-2 location"
+            <div class="col m-1 m-lg-2 location location-closed"
                  th:each="col: ${row}"
                  th:id="'location_' + ${rowStat.index} + '_' + ${colStat.index}"
                  th:onclick="openLocation(this.id)">
