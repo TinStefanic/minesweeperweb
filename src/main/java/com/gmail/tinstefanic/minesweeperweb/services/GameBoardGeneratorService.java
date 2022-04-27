@@ -12,7 +12,7 @@ public class GameBoardGeneratorService implements IGameBoardGeneratorService {
         // GameBoard(width, height, totalMines).
         if ("easy".equals(difficulty)) return new GameBoard(9, 9, 10);
         if ("normal".equals(difficulty)) return new GameBoard(12, 17, 40);
-        if ("hard".equals(difficulty)) return new GameBoard(16, 40, 99);
+        if ("hard".equals(difficulty)) return new GameBoard(12, 50, 99);
         throw new IllegalArgumentException("Difficulty: '" + difficulty + "' is invalid difficulty");
     }
 

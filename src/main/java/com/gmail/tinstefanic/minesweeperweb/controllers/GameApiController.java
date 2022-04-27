@@ -2,6 +2,7 @@ package com.gmail.tinstefanic.minesweeperweb.controllers;
 
 import com.gmail.tinstefanic.minesweeperweb.exceptions.LocationOutOfGameBoardBoundsException;
 import com.gmail.tinstefanic.minesweeperweb.models.OpenLocationResponse;
+import com.gmail.tinstefanic.minesweeperweb.services.AddToLeaderBoardService;
 import com.gmail.tinstefanic.minesweeperweb.services.GameMovesFactoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +18,14 @@ import java.security.Principal;
 public class GameApiController {
 
     private final GameMovesFactoryService gameMovesFactoryService;
+    private final AddToLeaderBoardService addToLeaderBoardService;
 
-    public GameApiController(@Autowired GameMovesFactoryService gameMovesFactoryService) {
-
+    public GameApiController(
+            @Autowired GameMovesFactoryService gameMovesFactoryService,
+            @Autowired AddToLeaderBoardService addToLeaderBoardService)
+    {
         this.gameMovesFactoryService = gameMovesFactoryService;
+        this.addToLeaderBoardService = addToLeaderBoardService;
     }
 
     @GetMapping("/api/open/{id}")
@@ -30,7 +35,7 @@ public class GameApiController {
             @RequestParam("y") int y,
             Principal principal
     ) {
-        var gameMoves = gameMovesFactoryService.fromGameBoardId(gameBoardId);
+        var gameMoves = this.gameMovesFactoryService.fromGameBoardId(gameBoardId);
 
         if (!gameMoves.doesGameBoardExist()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -41,8 +46,9 @@ public class GameApiController {
         }
 
         try {
-            // TODO: Check if game is completed and if soo add it to leaderboard.
-            return gameMoves.openLocation(x, y);
+            OpenLocationResponse response = gameMoves.openLocation(x, y);
+            if (gameMoves.hasPlayerWon()) this.addToLeaderBoardService.addToLeaderBoard(gameBoardId);
+            return response;
         } catch (LocationOutOfGameBoardBoundsException e) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,

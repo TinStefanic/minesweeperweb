@@ -8,16 +8,19 @@ import com.gmail.tinstefanic.minesweeperweb.models.OpenLocationResponse;
 import com.gmail.tinstefanic.minesweeperweb.repositories.GameBoardRepository;
 import com.gmail.tinstefanic.minesweeperweb.services.gameboard.GameBoardLocationType;
 import com.gmail.tinstefanic.minesweeperweb.services.gameboard.IGameBoardGenerator;
+import lombok.Getter;
 
 import java.security.Principal;
 import java.util.Optional;
 
 public class GameMoves {
-    private GameBoardRepository gameBoardRepository;
+    private final GameBoardRepository gameBoardRepository;
+    @Getter
     private GameBoard gameBoard;
-    private boolean doesGameBoardExist;
-    private IGameBoardGenerator gameBoardGenerator;
+    private final boolean doesGameBoardExist;
+    private final IGameBoardGenerator gameBoardGenerator;
     private boolean isNextMoveFirstMove = true;
+    private boolean hasPlayerWon = false;
 
     /**
      * Creates new GameMoves class.
@@ -53,6 +56,15 @@ public class GameMoves {
     }
 
     /**
+     * Checks if the player has opened all non mine locations.
+     * Returns false if provided GameBoard was already completed.
+     * @return Did the player win.
+     */
+    public boolean hasPlayerWon() {
+        return this.hasPlayerWon;
+    }
+
+    /**
      * Checks can the principal perform actions on the GameBoard.
      * @param principal Principal whose access should be tested.
      * @return True if principal can perform actions on the GameBoard, false otherwise.
@@ -73,7 +85,7 @@ public class GameMoves {
         if (this.gameBoard.isGameOver()) {
             throw new GameOverGameBoardModifiedException(
                     "Cannot perform action 'openLocation' on GameBoard with id '" +
-                    String.valueOf(this.gameBoard.getId()) +
+                    this.gameBoard.getId() +
                     "' because GameBoard is in game over state."
             );
         }
@@ -126,6 +138,7 @@ public class GameMoves {
         this.gameBoard.setRemainingClosedSafeFields(this.gameBoard.getRemainingClosedSafeFields() - 1);
         if (this.gameBoard.getRemainingClosedSafeFields() == 0) {
             this.gameBoard.setGameOver(true);
+            this.hasPlayerWon = true;
         }
 
         this.gameBoardRepository.save(this.gameBoard);

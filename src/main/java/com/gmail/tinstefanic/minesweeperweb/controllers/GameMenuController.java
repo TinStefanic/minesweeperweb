@@ -12,25 +12,24 @@ import java.security.Principal;
 @Controller
 public class GameMenuController {
 
-    private final IGameBoardGeneratorService gameService;
+    private final IGameBoardGeneratorService gameBoardGeneratorService;
 
     @Autowired
-    public GameMenuController(IGameBoardGeneratorService gameService) {
-        this.gameService = gameService;
+    public GameMenuController(IGameBoardGeneratorService gameBoardGeneratorService) {
+        this.gameBoardGeneratorService = gameBoardGeneratorService;
     }
 
     @GetMapping("/game/{difficulty}")
     public String game(@PathVariable String difficulty, Model model, Principal principal) {
-        if (!this.gameService.isValidDifficulty(difficulty))
+        if (!this.gameBoardGeneratorService.isValidDifficulty(difficulty))
             return "redirect:/menu";
 
-        var gameBoard = this.gameService.getNewGameBoard(difficulty);
+        var gameBoard = this.gameBoardGeneratorService.getNewGameBoard(difficulty);
         gameBoard.setUsername(principal.getName());
 
         model.addAttribute("gameBoard", gameBoard);
 
-        // Easy and normal difficulty share page.
-        return "game_" + ("easy".equals(difficulty) ? "normal" : difficulty);
+        return "game";
     }
 
     @GetMapping("/difficulty")
