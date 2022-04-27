@@ -20,9 +20,10 @@ public class GameApiController {
     private final GameMovesFactoryService gameMovesFactoryService;
     private final AddToLeaderboardService addToLeaderBoardService;
 
+    @Autowired
     public GameApiController(
-            @Autowired GameMovesFactoryService gameMovesFactoryService,
-            @Autowired AddToLeaderboardService addToLeaderBoardService)
+            GameMovesFactoryService gameMovesFactoryService,
+            AddToLeaderboardService addToLeaderBoardService)
     {
         this.gameMovesFactoryService = gameMovesFactoryService;
         this.addToLeaderBoardService = addToLeaderBoardService;

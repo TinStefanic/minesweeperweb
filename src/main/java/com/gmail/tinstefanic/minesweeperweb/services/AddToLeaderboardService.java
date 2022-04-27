@@ -16,9 +16,10 @@ public class AddToLeaderboardService {
     private final LeaderboardEntryRepository leaderboardEntryRepository;
     private final GameBoardRepository gameBoardRepository;
 
+    @Autowired
     public AddToLeaderboardService(
-            @Autowired LeaderboardEntryRepository leaderboardEntryRepository,
-            @Autowired GameBoardRepository gameBoardRepository)
+            LeaderboardEntryRepository leaderboardEntryRepository,
+            GameBoardRepository gameBoardRepository)
     {
 
         this.leaderboardEntryRepository = leaderboardEntryRepository;
