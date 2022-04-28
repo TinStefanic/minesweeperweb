@@ -24,7 +24,7 @@ class AddToLeaderboardServiceTest {
     private AddToLeaderboardService addToLeaderboardService;
 
     @Before
-    public void setup() {
+    public void setUp() {
         this.addToLeaderboardService =
                 new AddToLeaderboardService(this.leaderboardEntryRepository, this.gameBoardRepository);
     }

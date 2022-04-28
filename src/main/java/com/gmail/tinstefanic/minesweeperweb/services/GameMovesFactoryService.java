@@ -11,7 +11,8 @@ public class GameMovesFactoryService {
 
     private GameBoardRepository gameBoardRepository;
 
-    public GameMovesFactoryService(@Autowired GameBoardRepository gameBoardRepository) {
+    @Autowired
+    public GameMovesFactoryService(GameBoardRepository gameBoardRepository) {
         this.gameBoardRepository = gameBoardRepository;
     }
 
