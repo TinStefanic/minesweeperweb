@@ -1,22 +1,20 @@
 package com.gmail.tinstefanic.minesweeperweb.services;
 
 import com.gmail.tinstefanic.minesweeperweb.entities.LeaderboardEntry;
-import com.gmail.tinstefanic.minesweeperweb.exceptions.NotImplementedException;
 import com.gmail.tinstefanic.minesweeperweb.repositories.LeaderboardEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-// TODO: Test.
-// TODO: Implement.
 /**
  * Gets leaderboard entries from database that fit given criteria.
  */
 @Service
 public class FilterLeaderboardService {
 
-    private LeaderboardEntryRepository leaderboardEntryRepository;
+    private final LeaderboardEntryRepository leaderboardEntryRepository;
 
     @Autowired
     public FilterLeaderboardService(LeaderboardEntryRepository leaderboardEntryRepository) {
@@ -30,7 +28,8 @@ public class FilterLeaderboardService {
      * @return List of leaderboard entries, ordered from youngest to oldest.
      */
     public List<LeaderboardEntry> queryUserHistory(String username, int numEntries) {
-        throw new NotImplementedException();
+        return this.leaderboardEntryRepository
+                .findAllByUsernameOrderByCompletionDateTimeDesc(username, PageRequest.of(0, numEntries));
     }
 
     /**
@@ -39,7 +38,8 @@ public class FilterLeaderboardService {
      * @return List of leaderboard entries, ordered from youngest to oldest.
      */
     public List<LeaderboardEntry> queryRecent(int numEntries) {
-        throw new NotImplementedException();
+        return this.leaderboardEntryRepository
+                .findAllByOrderByCompletionDateTimeDesc(PageRequest.of(0, numEntries));
     }
 
     /**
@@ -49,6 +49,7 @@ public class FilterLeaderboardService {
      * @return List of leaderboard entries, ordered from the fastest completion time to slowest.
      */
     public List<LeaderboardEntry> queryByDifficulty(String difficulty, int numEntries) {
-        throw new NotImplementedException();
+        return this.leaderboardEntryRepository
+                .findAllByDifficultyOrderByGameDurationMillisAsc(difficulty, PageRequest.of(0, numEntries));
     }
 }

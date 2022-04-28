@@ -44,7 +44,7 @@ class GameApiControllerTest {
         when(gameBoardRepository.findById(id)).thenReturn(Optional.of(gameBoard));
 
         this.mockMvc.perform(
-                get("/api/open/" + String.valueOf(id))
+                get("/api/open/" + id)
                         .param("x", "1")
                         .param("y", "1")
         ).andExpect(status().isForbidden());
@@ -62,7 +62,7 @@ class GameApiControllerTest {
         when(gameBoardRepository.findById(id)).thenReturn(Optional.of(gameBoard));
 
         this.mockMvc.perform(
-                get("/api/open/" + String.valueOf(id))
+                get("/api/open/" + id)
                         .param("x", "1")
                         .param("y", "1")
         ).andExpect(status().isOk());
@@ -81,7 +81,7 @@ class GameApiControllerTest {
         when(gameBoardRepository.findById(id)).thenReturn(Optional.of(gameBoard));
 
         this.mockMvc.perform(
-                get("/api/open/" + String.valueOf(id))
+                get("/api/open/" + id)
                         .param("x", x)
                         .param("y", y)
         ).andExpect(status().isBadRequest());

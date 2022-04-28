@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -19,7 +19,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class FilterLeaderboardServiceTest {
 
@@ -30,7 +30,7 @@ class FilterLeaderboardServiceTest {
     FilterLeaderboardService filterLeaderboardService;
 
     Long totalNumEntries = 0L;
-    int allAndMoreEntries = 100; // Number larger than total amount of entries.
+    final int allAndMoreEntries = 100; // Number larger than total amount of entries.
 
     @BeforeEach
     void setUp() {

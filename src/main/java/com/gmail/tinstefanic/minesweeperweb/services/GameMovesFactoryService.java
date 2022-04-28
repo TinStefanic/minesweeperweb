@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class GameMovesFactoryService {
 
-    private GameBoardRepository gameBoardRepository;
+    private final GameBoardRepository gameBoardRepository;
 
     @Autowired
     public GameMovesFactoryService(GameBoardRepository gameBoardRepository) {

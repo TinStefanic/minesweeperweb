@@ -1,29 +1,32 @@
 package com.gmail.tinstefanic.minesweeperweb.services;
 
+import com.gmail.tinstefanic.minesweeperweb.entities.GameBoard;
 import com.gmail.tinstefanic.minesweeperweb.entities.LeaderboardEntry;
 import com.gmail.tinstefanic.minesweeperweb.repositories.GameBoardRepository;
 import com.gmail.tinstefanic.minesweeperweb.repositories.LeaderboardEntryRepository;
-import org.junit.Before;
-import org.junit.Test;
+import com.gmail.tinstefanic.minesweeperweb.util.GameDifficulty;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@SpringBootTest
 class AddToLeaderboardServiceTest {
 
-    @Mock
+    @MockBean
     private LeaderboardEntryRepository leaderboardEntryRepository;
 
-    @Mock
+    @MockBean
     private GameBoardRepository gameBoardRepository;
 
     private AddToLeaderboardService addToLeaderboardService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.addToLeaderboardService =
                 new AddToLeaderboardService(this.leaderboardEntryRepository, this.gameBoardRepository);
@@ -44,7 +47,10 @@ class AddToLeaderboardServiceTest {
     @DisplayName("When entry with same GameBoard id isn't already present then should add new entry.")
     void whenEntryWithSameGameBoardIdIsntAlreadyPresentThenShouldAddNewEntryTest() {
         long id = 13;
+        int width = GameDifficulty.EASY.getWidth(), height = GameDifficulty.EASY.getHeight();
+        int totalMines = GameDifficulty.EASY.getTotalMines();
         when(this.gameBoardRepository.existsById(id)).thenReturn(false);
+        when(this.gameBoardRepository.findById(id)).thenReturn(Optional.of(new GameBoard(width, height, totalMines)));
 
         this.addToLeaderboardService.addToLeaderBoard(id);
 

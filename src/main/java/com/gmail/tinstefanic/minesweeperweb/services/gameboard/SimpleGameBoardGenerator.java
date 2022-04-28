@@ -35,9 +35,9 @@ public class SimpleGameBoardGenerator implements IGameBoardGenerator {
 
     private void throwExceptionIfParametersAreIllegal(int width, int height, int totalMines) {
         if (totalMines > width * height || totalMines < 0)
-            throw new IllegalNumberOfMinesException("Total number of mines (" + String.valueOf(totalMines) +
+            throw new IllegalNumberOfMinesException("Total number of mines (" + totalMines +
                     ") must be greater or equal to 0 and less then or equal to size of board(" +
-                    String.valueOf(width * height) + ")");
+                    width * height + ")");
     }
 
     private String shiftArrayStartToCoords(

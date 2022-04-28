@@ -15,7 +15,7 @@ import java.security.Principal;
 public class GameMenuController {
 
     private final IGameBoardGeneratorService gameBoardGeneratorService;
-    private Integer pageSize;
+    private final Integer pageSize;
 
     @Autowired
     public GameMenuController(
