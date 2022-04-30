@@ -42,6 +42,18 @@ public enum GameBoardLocationType {
     }
 
     /**
+     * Returns opened version of the location. Does nothing if location is already opened or mine.
+     * @return Corresponding opened location, or same location.
+     */
+    public GameBoardLocationType toOpened() {
+        if (isClosed() && this != GameBoardLocationType.MINE) {
+            return GameBoardLocationType.valueOf("OPENED_" + name().charAt(name().length()-1));
+        } else {
+            return this;
+        }
+    }
+
+    /**
      * Checks if the current location represents unopened tile.
      * @return Is the location closed.
      */

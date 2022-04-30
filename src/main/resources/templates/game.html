@@ -7,21 +7,24 @@
 </head>
 <body>
 
+<div id="gameBoardId" th:class="${gameBoard.getId()}" hidden></div>
+
 <div class="align-items-center text-center">
     <div class="container-lg justify-content-center">
         <div class="my-3">
-            <h1 id="timer">0</h1>
+            <h1 id="gameTimer">0</h1>
         </div>
         <div id="result"></div>
         <div class="row" th:each="row: ${gameBoard.getRows()}">
-            <div class="col m-1 m-lg-2 location location-closed"
+            <div class="col m-1 m-lg-2 location location-closed d-flex align-items-center justify-content-center"
                  th:each="col: ${row}"
                  th:id="'location_' + ${rowStat.index} + '_' + ${colStat.index}"
-                 th:onclick="openLocation(this.id)">
+            >
             </div>
         </div>
     </div>
 </div>
-
+<div class="p-3 text-center"><a th:href="@{/menu}" class="menu-option">Return to main menu</a></div>
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

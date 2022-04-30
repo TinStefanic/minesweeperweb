@@ -1,6 +1,7 @@
 package com.gmail.tinstefanic.minesweeperweb.controllers;
 
 import com.gmail.tinstefanic.minesweeperweb.exceptions.NotImplementedException;
+import com.gmail.tinstefanic.minesweeperweb.repositories.GameBoardRepository;
 import com.gmail.tinstefanic.minesweeperweb.services.IGameBoardGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,14 +17,17 @@ public class GameMenuController {
 
     private final IGameBoardGeneratorService gameBoardGeneratorService;
     private final Integer pageSize;
+    private final GameBoardRepository gameBoardRepository;
 
     @Autowired
     public GameMenuController(
             IGameBoardGeneratorService gameBoardGeneratorService,
-            @Value("${settings.leaderboard.page-size}") Integer pageSize)
+            @Value("${settings.leaderboard.page-size}") Integer pageSize,
+            GameBoardRepository gameBoardRepository)
     {
         this.gameBoardGeneratorService = gameBoardGeneratorService;
         this.pageSize = pageSize;
+        this.gameBoardRepository = gameBoardRepository;
     }
 
     @GetMapping("/game/{difficulty}")
@@ -31,8 +35,9 @@ public class GameMenuController {
         if (!this.gameBoardGeneratorService.isValidDifficulty(difficulty))
             return "redirect:/menu";
 
-        var gameBoard = this.gameBoardGeneratorService.getNewGameBoard(difficulty);
+        var gameBoard = this.gameBoardGeneratorService.getNewGameBoard(difficulty, principal.getName());
         gameBoard.setUsername(principal.getName());
+        this.gameBoardRepository.save(gameBoard);
 
         model.addAttribute("gameBoard", gameBoard);
 

@@ -2,7 +2,6 @@ package com.gmail.tinstefanic.minesweeperweb.services.gamemoves;
 
 import com.gmail.tinstefanic.minesweeperweb.entities.GameBoard;
 import com.gmail.tinstefanic.minesweeperweb.exceptions.GameOverGameBoardModifiedException;
-import com.gmail.tinstefanic.minesweeperweb.exceptions.LocationAlreadyOpenedException;
 import com.gmail.tinstefanic.minesweeperweb.exceptions.LocationOutOfGameBoardBoundsException;
 import com.gmail.tinstefanic.minesweeperweb.models.OpenLocationResponse;
 import com.gmail.tinstefanic.minesweeperweb.repositories.GameBoardRepository;
@@ -19,7 +18,6 @@ public class GameMoves {
     private GameBoard gameBoard;
     private final boolean doesGameBoardExist;
     private final IGameBoardGenerator gameBoardGenerator;
-    private boolean isNextMoveFirstMove = true;
     private boolean hasPlayerWon = false;
 
     /**
@@ -99,8 +97,8 @@ public class GameMoves {
             );
         }
 
-        boolean isFirstMove = this.isNextMoveFirstMove;
-        if (this.isNextMoveFirstMove) {
+        boolean isFirstMove = !this.gameBoard.isGameStarted();
+        if (isFirstMove) {
             ensureSafeFirstMoveAndStartGame(x, y);
         }
 
@@ -110,9 +108,9 @@ public class GameMoves {
             return makeGameFailedAndReturnResponse(isFirstMove);
         } else if (locationType.isClosed()) {
             return openLocationAndReturnResponse(x, y, isFirstMove);
-        } else throw new LocationAlreadyOpenedException(
-                "Location (" + x + ", " + y + ") is already opened and cannot be opened."
-        );
+        } else {
+            return ReturnResponse(x, y);
+        }
     }
 
     private void ensureSafeFirstMoveAndStartGame(int x, int y) {
@@ -121,7 +119,7 @@ public class GameMoves {
 
         this.gameBoard.setStartTimeMillis(System.currentTimeMillis());
 
-        this.isNextMoveFirstMove = false;
+        this.gameBoard.setGameStarted(true);
     }
 
     private OpenLocationResponse makeGameFailedAndReturnResponse(boolean isFirstMove) {
@@ -141,9 +139,17 @@ public class GameMoves {
             this.hasPlayerWon = true;
         }
 
+        boolean isMine = false, isGameOver = this.gameBoard.isGameOver();
+        int numNeighbouringMines = this.gameBoard.getLocationAt(x, y).getNumSurroundingMines();
+
+        this.gameBoard.openLocationAt(x, y);
         this.gameBoardRepository.save(this.gameBoard);
 
-        boolean isMine = false, isGameOver = this.gameBoard.isGameOver();
+        return new OpenLocationResponse(isMine, numNeighbouringMines, isFirstMove, isGameOver);
+    }
+
+    private OpenLocationResponse ReturnResponse(int x, int y) {
+        boolean isMine = false, isGameOver = this.gameBoard.isGameOver(), isFirstMove = false;
         int numNeighbouringMines = this.gameBoard.getLocationAt(x, y).getNumSurroundingMines();
 
         return new OpenLocationResponse(isMine, numNeighbouringMines, isFirstMove, isGameOver);

@@ -1,15 +1,13 @@
 package com.gmail.tinstefanic.minesweeperweb.controllers;
 
+import com.gmail.tinstefanic.minesweeperweb.exceptions.GameOverGameBoardModifiedException;
 import com.gmail.tinstefanic.minesweeperweb.exceptions.LocationOutOfGameBoardBoundsException;
 import com.gmail.tinstefanic.minesweeperweb.models.OpenLocationResponse;
 import com.gmail.tinstefanic.minesweeperweb.services.AddToLeaderboardService;
 import com.gmail.tinstefanic.minesweeperweb.services.GameMovesFactoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
@@ -53,7 +51,13 @@ public class GameApiController {
         } catch (LocationOutOfGameBoardBoundsException e) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
-                    "Provided coordinates are outside the game board",
+                    "Provided coordinates are outside the game board.",
+                    e
+            );
+        } catch (GameOverGameBoardModifiedException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Game is already over.",
                     e
             );
         }

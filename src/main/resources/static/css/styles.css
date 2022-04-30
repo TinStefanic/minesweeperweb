@@ -3,11 +3,11 @@
 }
 
 .location-closed {
-    background-color: #212529; // Black/dark grey.
+    background-color: #212529; /* Black/dark grey. */
 }
 
 .location-opened {
-    ; // Removes background-color/makes it same as site background.
+    background-color: transparent;/* Removes background-color/makes it same as site background. */
 }
 
 .location-flagged {
@@ -16,6 +16,14 @@
 
 .location-mine {
     background-color: Red;
+}
+
+.game-defeat {
+    color: red;
+}
+
+.game-victory {
+    color: green;
 }
 
 .location:before {

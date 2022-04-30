@@ -30,6 +30,7 @@ public class GameBoard {
     private String username; // Name of user to whom this game board id assigned.
     private int remainingClosedSafeFields;
     private boolean isGameOver = false;
+    private boolean isGameStarted = false;
 
     protected GameBoard() {}
 
@@ -50,12 +51,12 @@ public class GameBoard {
         return GameBoardLocationType.fromChar(this.boardAsString.charAt(y * (this.width + 1) + x));
     }
 
-    public void setLocationAt(int x, int y, GameBoardLocationType locationType) {
+    public void openLocationAt(int x, int y) {
         // width + 1 because of new lines.
         this.boardAsString =
                 this.boardAsString.substring(0, y * (this.width + 1) + x) +
-                locationType.asChar() +
-                this.boardAsString.substring(y * (this.width + 1) + x + 1);
+                        getLocationAt(x, y).toOpened().asChar() +
+                        this.boardAsString.substring(y * (this.width + 1) + x + 1);
     }
 
     public List<List<GameBoardLocationType>> getRows() {

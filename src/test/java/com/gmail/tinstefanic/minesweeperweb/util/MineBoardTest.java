@@ -29,7 +29,7 @@ class MineBoardTest {
 
     @ParameterizedTest
     @ValueSource(ints = {3, 8, -2, -7})
-    @DisplayName("RightShiftColumnsShouldShiftColumnsCorrectly.")
+    @DisplayName("Right shift columns should shift columns correctly.")
     void rightShiftColumnsShouldShiftColumnsCorrectlyTest(int offset) {
         String boardString = """
                         _X___
@@ -50,7 +50,7 @@ class MineBoardTest {
 
     @ParameterizedTest
     @ValueSource(ints = {1, 5, -3, -7})
-    @DisplayName("RightShiftRowsShouldShiftRowsCorrectly.")
+    @DisplayName("Right shift rows should shift rows correctly.")
     void rightShiftRowsShouldShiftRowsCorrectlyTest(int offset) {
         String boardString = """
                         __
@@ -75,7 +75,7 @@ class MineBoardTest {
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 7, 13, 40})
-    @DisplayName("RandomMineBoardShouldHaveCorrectNumberOfMines.")
+    @DisplayName("Random mine board should have correct number of mines.")
     void randomMineBoardShouldHaveCorrectNumberOfMinesTest(int numMines) {
         int width = 20, height = 20;
 
