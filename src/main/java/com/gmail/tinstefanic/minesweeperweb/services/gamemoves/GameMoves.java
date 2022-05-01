@@ -3,7 +3,7 @@ package com.gmail.tinstefanic.minesweeperweb.services.gamemoves;
 import com.gmail.tinstefanic.minesweeperweb.entities.GameBoard;
 import com.gmail.tinstefanic.minesweeperweb.exceptions.GameOverGameBoardModifiedException;
 import com.gmail.tinstefanic.minesweeperweb.exceptions.LocationOutOfGameBoardBoundsException;
-import com.gmail.tinstefanic.minesweeperweb.models.OpenLocationResponse;
+import com.gmail.tinstefanic.minesweeperweb.dtos.OpenLocationDto;
 import com.gmail.tinstefanic.minesweeperweb.repositories.GameBoardRepository;
 import com.gmail.tinstefanic.minesweeperweb.services.gameboard.GameBoardLocationType;
 import com.gmail.tinstefanic.minesweeperweb.services.gameboard.IGameBoardGenerator;
@@ -79,7 +79,7 @@ public class GameMoves {
      * @return Result of opening location.
      * @throws LocationOutOfGameBoardBoundsException Thrown if given x and/or y are outside GameBoard.
      */
-    public OpenLocationResponse openLocation(int x, int y) throws LocationOutOfGameBoardBoundsException {
+    public OpenLocationDto openLocation(int x, int y) throws LocationOutOfGameBoardBoundsException {
         if (this.gameBoard.isGameOver()) {
             throw new GameOverGameBoardModifiedException(
                     "Cannot perform action 'openLocation' on GameBoard with id '" +
@@ -122,17 +122,17 @@ public class GameMoves {
         this.gameBoard.setGameStarted(true);
     }
 
-    private OpenLocationResponse makeGameFailedAndReturnResponse(boolean isFirstMove) {
+    private OpenLocationDto makeGameFailedAndReturnResponse(boolean isFirstMove) {
         this.gameBoard.setGameOver(true);
         boolean isMine = true, isGameOver = true;
         int numNeighbouringMines = -1;
 
         this.gameBoardRepository.save(this.gameBoard);
 
-        return new OpenLocationResponse(isMine, numNeighbouringMines, isFirstMove, isGameOver);
+        return new OpenLocationDto(isMine, numNeighbouringMines, isFirstMove, isGameOver);
     }
 
-    private OpenLocationResponse openLocationAndReturnResponse(int x, int y, boolean isFirstMove) {
+    private OpenLocationDto openLocationAndReturnResponse(int x, int y, boolean isFirstMove) {
         this.gameBoard.setRemainingClosedSafeFields(this.gameBoard.getRemainingClosedSafeFields() - 1);
         if (this.gameBoard.getRemainingClosedSafeFields() == 0) {
             this.gameBoard.setGameOver(true);
@@ -145,13 +145,13 @@ public class GameMoves {
         this.gameBoard.openLocationAt(x, y);
         this.gameBoardRepository.save(this.gameBoard);
 
-        return new OpenLocationResponse(isMine, numNeighbouringMines, isFirstMove, isGameOver);
+        return new OpenLocationDto(isMine, numNeighbouringMines, isFirstMove, isGameOver);
     }
 
-    private OpenLocationResponse ReturnResponse(int x, int y) {
+    private OpenLocationDto ReturnResponse(int x, int y) {
         boolean isMine = false, isGameOver = this.gameBoard.isGameOver(), isFirstMove = false;
         int numNeighbouringMines = this.gameBoard.getLocationAt(x, y).getNumSurroundingMines();
 
-        return new OpenLocationResponse(isMine, numNeighbouringMines, isFirstMove, isGameOver);
+        return new OpenLocationDto(isMine, numNeighbouringMines, isFirstMove, isGameOver);
     }
 }

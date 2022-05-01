@@ -2,7 +2,7 @@ package com.gmail.tinstefanic.minesweeperweb.controllers;
 
 import com.gmail.tinstefanic.minesweeperweb.exceptions.GameOverGameBoardModifiedException;
 import com.gmail.tinstefanic.minesweeperweb.exceptions.LocationOutOfGameBoardBoundsException;
-import com.gmail.tinstefanic.minesweeperweb.models.OpenLocationResponse;
+import com.gmail.tinstefanic.minesweeperweb.dtos.OpenLocationDto;
 import com.gmail.tinstefanic.minesweeperweb.services.AddToLeaderboardService;
 import com.gmail.tinstefanic.minesweeperweb.services.GameMovesFactoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class GameApiController {
     }
 
     @GetMapping("/api/open/{id}")
-    public OpenLocationResponse openLocation(
+    public OpenLocationDto openLocation(
             @PathVariable("id") long gameBoardId,
             @RequestParam("x") int x,
             @RequestParam("y") int y,
@@ -45,7 +45,7 @@ public class GameApiController {
         }
 
         try {
-            OpenLocationResponse response = gameMoves.openLocation(x, y);
+            OpenLocationDto response = gameMoves.openLocation(x, y);
             if (gameMoves.hasPlayerWon()) this.addToLeaderBoardService.addToLeaderBoard(gameBoardId);
             return response;
         } catch (LocationOutOfGameBoardBoundsException e) {

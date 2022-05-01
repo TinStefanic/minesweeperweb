@@ -12,7 +12,7 @@ for (let row = 0; row < 100; row++) {
             else if (event.button === 2) applyRightClick(row.toString(), col.toString());
         });
 
-        location.addEventListener("contextmenu", e => { e.preventDefault(); return false; } ); 
+        location.addEventListener("contextmenu", e => { e.preventDefault(); return false; } );
     }
 }
 
