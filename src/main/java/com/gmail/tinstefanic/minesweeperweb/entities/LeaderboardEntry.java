@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -30,5 +31,13 @@ public class LeaderboardEntry {
 
         this.username = gameBoard.getUsername();
         this.difficulty = difficultyString;
+    }
+
+    public String getCompletionDateTimeAsString() {
+        return this.completionDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE);
+    }
+
+    public long getGameDurationSeconds() {
+        return Math.round(this.gameDurationMillis / 1000.0);
     }
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--suppress CheckTagEmptyBody -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Leaderboard</title>
+    <th:block th:include="layout :: head-assets"></th:block>
+</head>
+<body>
+
+<div class="d-flex align-items-center min-vh-100">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col">
+                <div class="pb-5"><h1>Leaderboard</h1></div>
+
+                <div class="row">
+                    <div class="col pb-3"><a th:href="@{/leaderboard/easy}" class="menu-option">Easy</a></div>
+                    <div class="col pb-3"><a th:href="@{/leaderboard/normal}" class="menu-option">Normal</a></div>
+                    <div class="col pb-3"><a th:href="@{/leaderboard/hard}" class="menu-option">Hard</a></div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr class="d-flex" th:if="${entryList != null}">
+                            <th class="col-4">Username</th>
+                            <th class="col-4">Game duration</th>
+                            <th class="col-4">Completed at</th>
+                        </tr>
+                        <tr class="d-flex" th:each="entry: ${entryList}">
+                            <td class="col-4" th:text="${entry.getUsername()}"></td>
+                            <td class="col-4" th:text="${entry.getGameDurationSeconds()}"></td>
+                            <td class="col-4" th:text="${entry.getCompletionDateTimeAsString()}"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="p-3 text-center"><a th:href="@{/menu}" class="menu-option">Return to main menu</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

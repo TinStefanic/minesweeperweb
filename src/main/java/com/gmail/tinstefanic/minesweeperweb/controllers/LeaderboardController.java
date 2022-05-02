@@ -46,7 +46,7 @@ public class LeaderboardController {
     public String personalHistory(Model model, Principal principal) {
         List<LeaderboardEntry> historyList =
                 this.filterLeaderboardService.queryUserHistory(principal.getName(), this.pageSize);
-        model.addAttribute("recentList", historyList);
+        model.addAttribute("entryList", historyList);
 
         return "recent";
     }
@@ -55,7 +55,7 @@ public class LeaderboardController {
     public String allUsersRecent(Model model) {
         List<LeaderboardEntry> recentList =
                 this.filterLeaderboardService.queryRecent(this.pageSize);
-        model.addAttribute("recentList", recentList);
+        model.addAttribute("entryList", recentList);
 
         return "recent";
     }
