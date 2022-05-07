@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Profile("!test")
 @Component
@@ -23,6 +24,7 @@ public class GuestUserLoader implements CommandLineRunner {
         loadGuestUser();
     }
 
+    @Transactional
     private void loadGuestUser() {
         if (this.userRepository.count() == 0) {
             String username = "guest", password = "";

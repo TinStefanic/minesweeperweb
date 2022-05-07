@@ -7,6 +7,7 @@ import com.gmail.tinstefanic.minesweeperweb.repositories.LeaderboardEntryReposit
 import com.gmail.tinstefanic.minesweeperweb.util.GameDifficulty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -29,6 +30,7 @@ public class AddToLeaderboardService {
      * Adds game to the leaderboard, if not already present.
      * @param gameBoardId Id of GameBoard corresponding to the game.
      */
+    @Transactional
     public void addToLeaderBoard(Long gameBoardId) {
         if (this.leaderboardEntryRepository.existsById(gameBoardId)) return;
 

@@ -7,6 +7,7 @@ import com.gmail.tinstefanic.minesweeperweb.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service for adding new user to database.
@@ -30,6 +31,7 @@ public class RegisterUserService {
      * @return Newly created user.
      * @throws UserAlreadyExistsException Thrown if there is already user with the same username in the database.
      */
+    @Transactional
     public User registerNewUser(UserDto userDto) throws UserAlreadyExistsException {
         if (this.userRepository.existsById(userDto.getUsername())) {
             throw new UserAlreadyExistsException(

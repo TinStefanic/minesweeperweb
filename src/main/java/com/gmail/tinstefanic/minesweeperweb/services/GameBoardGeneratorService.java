@@ -5,6 +5,7 @@ import com.gmail.tinstefanic.minesweeperweb.repositories.GameBoardRepository;
 import com.gmail.tinstefanic.minesweeperweb.util.GameDifficulty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class GameBoardGeneratorService implements IGameBoardGeneratorService {
     }
 
     @Override
+    @Transactional
     public GameBoard getNewGameBoard(String difficultyString, String username) {
         for (GameDifficulty gameDifficulty : GameDifficulty.values())  {
             if (gameDifficulty.lowercaseName().equals(difficultyString)) {

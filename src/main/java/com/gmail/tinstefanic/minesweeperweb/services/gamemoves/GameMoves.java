@@ -1,13 +1,14 @@
 package com.gmail.tinstefanic.minesweeperweb.services.gamemoves;
 
+import com.gmail.tinstefanic.minesweeperweb.dtos.OpenLocationDto;
 import com.gmail.tinstefanic.minesweeperweb.entities.GameBoard;
 import com.gmail.tinstefanic.minesweeperweb.exceptions.GameOverGameBoardModifiedException;
 import com.gmail.tinstefanic.minesweeperweb.exceptions.LocationOutOfGameBoardBoundsException;
-import com.gmail.tinstefanic.minesweeperweb.dtos.OpenLocationDto;
 import com.gmail.tinstefanic.minesweeperweb.repositories.GameBoardRepository;
 import com.gmail.tinstefanic.minesweeperweb.services.gameboard.GameBoardLocationType;
 import com.gmail.tinstefanic.minesweeperweb.services.gameboard.IGameBoardGenerator;
 import lombok.Getter;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -79,6 +80,7 @@ public class GameMoves {
      * @return Result of opening location.
      * @throws LocationOutOfGameBoardBoundsException Thrown if given x and/or y are outside GameBoard.
      */
+    @Transactional
     public OpenLocationDto openLocation(int x, int y) throws LocationOutOfGameBoardBoundsException {
         if (this.gameBoard.isGameOver()) {
             throw new GameOverGameBoardModifiedException(
